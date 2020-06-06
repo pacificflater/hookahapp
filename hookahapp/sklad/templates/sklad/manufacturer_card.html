@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>{{ manufacturer.name }}</h2>
+
+    <h3>{{ manufacturer.name }} flavours list:</h3>
+    <ul>
+        {% for flavour in manufacturer.flavour_set.all %}
+            <li><a href={% url "sklad:flavour_card" manufacturer.id flavour.id %}>{{ flavour.flavour_name }}</a></li>
+        {% endfor %}
+        </ul>
+    <form action="{% url 'sklad:manufacturer_delete' manufacturer.id %}" method="delete">
+        {% csrf_token %}
+        <input type = "submit" value="Delete">
+    </form>
+    <button name="flavour_form"><a href="{% url 'sklad:flavour_form' manufacturer.id %}">Add new flavour</a></button>
+
+</body>
+</html>

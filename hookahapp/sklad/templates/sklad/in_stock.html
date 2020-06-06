@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <ul>
+        {% for manufacturer in manufacturer_list %}
+            <li><a href="{% url 'sklad:manufacturer_card' manufacturer.id %}">{{ manufacturer.name }}</a>
+                <ul>
+                    {% for flavour in manufacturer.flavour_set.all %}
+                        {% if flavour.in_stock == True%}
+                            <li><a href="{%  url 'sklad:flavour_card' manufacturer.id flavour.id %}">{{ flavour.flavour_name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+</body>
+</html>

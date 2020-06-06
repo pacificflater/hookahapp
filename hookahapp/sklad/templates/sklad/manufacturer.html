@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <ul>
+        {% for manufacturer in manufacturer_list %}
+            <li><a href="{% url 'sklad:manufacturer_card' manufacturer.id %}">{{ manufacturer.name }}</a></li>
+        {% endfor %}
+        </ul>
+
+        <button name="add_manufacturer"><a href="{% url 'sklad:manufacturer_form' %}">Add new manufacturer</a></button>
+
+
+</body>
+</html>

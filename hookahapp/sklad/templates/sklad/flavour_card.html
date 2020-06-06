@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ flavour.flafour_name }}</title>
+</head>
+<body>
+    <h3 id="flavour_name">{{ flavour.flavour_name }}</h3>
+    <p id="in_stock">In stock: {{ flavour.in_stock }}</p>
+    <button id="flavour_delete"><a href="{% url 'sklad:flavour_delete' manufacturer.id flavour.id %}">Delete flavour</a></button>
+</body>
+</html>

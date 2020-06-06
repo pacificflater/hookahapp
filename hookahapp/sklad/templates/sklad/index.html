@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'sklad/style.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a href="{% url 'sklad:in_stock'%}">In stock</a>
+    <a href="{% url 'sklad:manufacturers' %}">Manufacturers</a>
+</body>
+</html>

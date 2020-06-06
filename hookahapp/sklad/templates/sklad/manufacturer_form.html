@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="{% url 'sklad:manufacturer_create' %}" method="post">
+        {% csrf_token %}
+        <p>Insert manufacturer name:</p>
+        <p><input type="text" id="name" name="name" maxlength="13" size="15" value="{{ name }}"></p>
+        <p><input type="submit" value="Save"></p>
+    </form>
+</body>
+</html>
