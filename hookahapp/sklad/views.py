@@ -8,14 +8,14 @@ from hookahapp.sklad.serializers import ManufacturerListSerializer, FlavourListS
 from rest_framework import permissions, viewsets
 
 class Manufacturers(viewsets.ModelViewSet):
-    queryset = Manufacturer.objects.all().order_by()
+    queryset = Manufacturer.objects.all().order_by('name')
     serializer_class = ManufacturerListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 class FlavoursView(viewsets.ModelViewSet):
     serializer_class = FlavourListSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Flavour.objects.all()
+    queryset = Flavour.objects.all().order_by('manufacturer__name', 'flavour_name')
 
 class MixesView(viewsets.ModelViewSet):
     serializer_class = MixSerializer
@@ -26,6 +26,8 @@ class MembershipView(viewsets.ModelViewSet):
     serializer_class = MembershipSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = Membership.objects.all()
+
+
 
 
 

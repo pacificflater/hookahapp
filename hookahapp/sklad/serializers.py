@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 class FlavourListSerializer(serializers.ModelSerializer):
 
-    manufacturer_name = serializers.CharField(source='manufacturer.name')
+    manufacturer_name = serializers.CharField(source='manufacturer.name', read_only=True)
 
     class Meta:
         model = Flavour
@@ -20,17 +20,20 @@ class ManufacturerListSerializer(serializers.ModelSerializer):
 
 class MembershipSerializer(serializers.ModelSerializer):
 
+    flavour_name = serializers.CharField(source='flavour.flavour_name')
+    flavour_id = serializers.CharField(source='flavour.id')
+    flavour = FlavourListSerializer(many=True)
+
     class Meta:
         model = Membership
-        fields = '__all__'
-
+        fields = ['persontage', 'mix', 'flavour']
 
 class MixSerializer(serializers.ModelSerializer):
 
-    # membership = MembershipSerializer(many=True)
+    # compound = MembershipSerializer(many=True)
 
     class Meta:
         model = Mix
-        fields = ['mix_name', 'rating', 'strength', 'compound']
+        fields = ['id', 'mix_name', 'rating', 'strength', 'compound']
 
 

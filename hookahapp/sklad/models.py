@@ -21,7 +21,6 @@ class Mix(models.Model):
     strength = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(10)])
     compound = models.ManyToManyField(Flavour,
                                       through='Membership',
-                                      through_fields=('mix', 'flavour'),
                                       )
     def __str__(self):
         return self.mix_name
@@ -33,7 +32,13 @@ class Membership(models.Model):
     def __str__(self):
         return self.flavour
 
-
+# class Mixes(models.Model):
+#     mix_name = models.CharField(max_length=30)
+#     rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
+#     strength = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(10)])
+#     compound = models.ManyToManyField(Flavour)
+#     def __str__(self):
+#         return self.mix_name
 
 
 
