@@ -1,39 +1,57 @@
-from hookahapp.sklad.models import Manufacturer, Flavour, Membership, Mix
 from rest_framework import serializers
 
+from hookahapp.sklad.models import Flavour, Manufacturer, Membership, Mix
 
-class FlavourListSerializer(serializers.ModelSerializer):
 
-    manufacturer_name = serializers.CharField(source='manufacturer.name', read_only=True)
+class ManufacturerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Manufacturer
+        fields = '__all__'
+
+
+class FlavourSerializer(serializers.ModelSerializer):
+    manufacturer = ManufacturerSerializer()
 
     class Meta:
         model = Flavour
-        fields = '__all__'
+        fields = ['id', 'flavour_name', 'manufacturer', 'in_stock', 'add_time']
+
 
 class ManufacturerListSerializer(serializers.ModelSerializer):
-
-    flavours = FlavourListSerializer(many=True, read_only=True)
+    flavours = FlavourSerializer(many=True, read_only=True)
 
     class Meta:
         model = Manufacturer
+        # fields = '__all__'
         fields = ['id', 'name', 'flavours']
 
-class MembershipSerializer(serializers.ModelSerializer):
 
-    flavour_name = serializers.CharField(source='flavour.flavour_name')
-    flavour_id = serializers.CharField(source='flavour.id')
-    flavour = FlavourListSerializer(many=True)
+class MembershipSerializer(serializers.ModelSerializer):
+    flavour_info = FlavourSerializer(read_only=True, source='flavour_set')
 
     class Meta:
         model = Membership
-        fields = ['persontage', 'mix', 'flavour']
+        fields = ['percentage', 'mix', 'flavour']
+
+    # def create(self, validated_data):
+    #     flavours_data = validated_data.pop('flavour')
+    #     membership = Membership.objects.create(**validated_data)
+    #     for flavour_data in flavours_data:
+    #         Flavour.objects.create(membership=membership, **flavour_data)
+    #     return membership
+
 
 class MixSerializer(serializers.ModelSerializer):
 
-    # compound = MembershipSerializer(many=True)
+    compound = MembershipSerializer(many=True, read_only=True,  source='membership_set')
 
     class Meta:
         model = Mix
         fields = ['id', 'mix_name', 'rating', 'strength', 'compound']
 
-
+    # def create(self, validated_data):
+    #     #     compound_data = validated_data.pop('compound')
+    #     #     mix = Mix.objects.create(**validated_data)
+    #     #     for compound_data in compound_data:
+    #     #         Mix.objects.create(mix=mix, **compound_data)
+    #     #     return mix

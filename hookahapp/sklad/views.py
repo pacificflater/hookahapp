@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
-from hookahapp.sklad.serializers import ManufacturerListSerializer, FlavourListSerializer, MixSerializer, MembershipSerializer
+from hookahapp.sklad.serializers import ManufacturerListSerializer, FlavourSerializer, MixSerializer, MembershipSerializer
 from rest_framework import permissions, viewsets
 
 class Manufacturers(viewsets.ModelViewSet):
@@ -13,7 +13,7 @@ class Manufacturers(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class FlavoursView(viewsets.ModelViewSet):
-    serializer_class = FlavourListSerializer
+    serializer_class = FlavourSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = Flavour.objects.all().order_by('manufacturer__name', 'flavour_name')
 
@@ -26,8 +26,6 @@ class MembershipView(viewsets.ModelViewSet):
     serializer_class = MembershipSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = Membership.objects.all()
-
-
 
 
 

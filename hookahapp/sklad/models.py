@@ -27,18 +27,11 @@ class Mix(models.Model):
 
 class Membership(models.Model):
     flavour = models.ForeignKey(Flavour, on_delete=models.CASCADE)
-    persontage = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    percentage = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     mix = models.ForeignKey(Mix, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.flavour
+    def str(self):
+        return str(self.flavour)
 
-# class Mixes(models.Model):
-#     mix_name = models.CharField(max_length=30)
-#     rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
-#     strength = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(10)])
-#     compound = models.ManyToManyField(Flavour)
-#     def __str__(self):
-#         return self.mix_name
 
 
 
