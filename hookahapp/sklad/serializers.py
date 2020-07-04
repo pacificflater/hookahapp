@@ -27,7 +27,6 @@ class ManufacturerListSerializer(serializers.ModelSerializer):
 
 
 class MembershipSerializer(serializers.ModelSerializer):
-    flavour_info = FlavourSerializer(read_only=True, source='flavour_set')
 
     class Meta:
         model = Membership
