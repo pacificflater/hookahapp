@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.views import generic
-from hookahapp.sklad.serializers import ManufacturerListSerializer, FlavourSerializer, MixSerializer, MembershipSerializer
+from hookahapp.sklad.serializers import ManufacturerListSerializer, FlavourSerializer, MixSerializer, MembershipSerializer, MembershipCreateSerializer, FlavourCreateSerializer
 from rest_framework import permissions, viewsets
 
 class Manufacturers(viewsets.ModelViewSet):
@@ -13,19 +13,29 @@ class Manufacturers(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class FlavoursView(viewsets.ModelViewSet):
-    serializer_class = FlavourSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = Flavour.objects.all().order_by('manufacturer__name', 'flavour_name')
+    def get_serializer_class(self):
+        if self.action == "create":
+            return FlavourCreateSerializer
+        elif self.action == "update":
+            return FlavourCreateSerializer
+        return FlavourSerializer
 
 class MixesView(viewsets.ModelViewSet):
     serializer_class = MixSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Mix.objects.all()
+    queryset = Mix.objects.all().order_by('mix_name')
 
 class MembershipView(viewsets.ModelViewSet):
-    serializer_class = MembershipSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Membership.objects.all()
+    queryset = Membership.objects.all().order_by('flavour__flavour_name')
+    def get_serializer_class(self):
+        if self.action == "create":
+            return MembershipCreateSerializer
+        elif self.action == "update":
+            return MembershipCreateSerializer
+        return MembershipSerializer
 
 
 
