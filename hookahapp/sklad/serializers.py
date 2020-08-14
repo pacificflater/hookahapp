@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from hookahapp.sklad.models import Flavour, Manufacturer, Membership, Mix
+from hookahapp.sklad.models import Flavour, Manufacturer, Membership, Mix, FlavourType
 
 
 
@@ -9,16 +9,23 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         model = Manufacturer
         fields = '__all__'
 
-
-
-
-
+class FlavourTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FlavourType
+        fields = ['id', 'type']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=FlavourType.objects.all(),
+                fields=['type'],
+                message='Such flavour type already exists'
+            )
+        ]
 
 class FlavourCreateSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Flavour
-        fields = ['id', 'flavour_name', 'manufacturer', 'in_stock', 'add_time']
+        fields = ['id', 'flavour_name', 'manufacturer', 'flavour_type', 'in_stock', 'add_time']
 
         validators = [
             UniqueTogetherValidator(
@@ -31,13 +38,14 @@ class FlavourCreateSerializer(serializers.ModelSerializer):
 
 class FlavourSerializer(FlavourCreateSerializer):
     manufacturer = ManufacturerSerializer()
+    flavour_type = FlavourTypeSerializer(many=True, read_only=True)
 
 class ManufacturerListSerializer(serializers.ModelSerializer):
     flavours = FlavourSerializer(many=True, read_only=True)
 
     class Meta:
         model = Manufacturer
-        fields = ['id', 'name', 'flavours']
+        fields = ['id', 'name', 'type', 'flavours']
 
         validators = [
             UniqueTogetherValidator(
