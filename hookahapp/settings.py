@@ -26,7 +26,7 @@ SECRET_KEY = '2*@$_0t-viw4%_6r*xnla_xa6lm^x-)kc_5m_f=&)l#x+l0253'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'SWEET-HOME', '192.168.0.104', '*']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -145,7 +145,7 @@ REST_FRAMEWORK = {
        # 'rest_framework.authentication.TokenAuthentication',
    ),
    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.AllowAny'
    ),
    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }

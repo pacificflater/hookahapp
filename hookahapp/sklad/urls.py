@@ -7,10 +7,16 @@ from . import views
 app_name = 'sklad'
 
 router = routers.DefaultRouter()
-router.register(r'manufacturers', views.Manufacturers)
-router.register(r'flavours', views.FlavoursView)
-router.register(r'mixes', views.MixesView)
+router.register(r'manufacturer', views.Manufacturers, basename='Manufacturer')
+router.register(r'flavour', views.FlavoursView, basename='Flavour')
+router.register(r'mix', views.MixesView)
 router.register(r'membership', views.MembershipView)
+router.register(r'flavour_types', views.FlavourTypeView)
+router.register(r'manufacturer_type', views.ManufacturerTypeView)
+router.register(r'bowls', views.BowlView)
+router.register(r'bowl_types', views.BowlTypeView)
+router.register(r'mixes_in_stock', views.MixesInStockView)
+# router.register(r'available_mixes', views.AvailableMixesView, basename='AvailableMixes')
 
 
 urlpatterns = [

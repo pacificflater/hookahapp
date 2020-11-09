@@ -1,10 +1,64 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from hookahapp.sklad.models import Flavour, Manufacturer, Membership, Mix, FlavourType
+from hookahapp.sklad.models import Flavour, Manufacturer, Membership, Mix, FlavourType, ManufacturerType, BowlType, Bowl
 
+class BowlTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BowlType
+        fields = ['id', 'type']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ManufacturerType.objects.all(),
+                fields=['type'],
+                message='Such bowl type already exists'
+            )
+        ]
 
+class BowlSerializer(serializers.ModelSerializer):
+    type = BowlTypeSerializer(read_only=True)
+    class Meta:
+        model = Bowl
+        fields = '__all__'
+
+class BowlCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bowl
+        fields = ['name', 'type']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Manufacturer.objects.all(),
+                fields=['name'],
+                message='Such bowl name already exists'
+            )
+        ]
+
+class ManufacturerTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ManufacturerType
+        fields = ['id', 'type']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ManufacturerType.objects.all(),
+                fields=['type'],
+                message='Such manufacturer type already exists'
+            )
+        ]
+
+class ManufacturerCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Manufacturer
+        fields = ['name', 'type']
+
+    validators = [
+        UniqueTogetherValidator(
+            queryset=Manufacturer.objects.all(),
+            fields=['name'],
+            message='Such manufacturer name already exists'
+        )
+    ]
 
 class ManufacturerSerializer(serializers.ModelSerializer):
+    type = ManufacturerTypeSerializer(read_only=True)
     class Meta:
         model = Manufacturer
         fields = '__all__'
@@ -41,19 +95,13 @@ class FlavourSerializer(FlavourCreateSerializer):
     flavour_type = FlavourTypeSerializer(many=True, read_only=True)
 
 class ManufacturerListSerializer(serializers.ModelSerializer):
-    flavours = FlavourSerializer(many=True, read_only=True)
+    flavour = FlavourSerializer(many=True, read_only=True)
+    type = ManufacturerTypeSerializer(read_only=True)
 
     class Meta:
         model = Manufacturer
-        fields = ['id', 'name', 'type', 'flavours']
+        fields = ['id', 'name', 'type', 'flavour']
 
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Manufacturer.objects.all(),
-                fields=['name'],
-                message='Such manufacturer name already exists'
-            )
-        ]
 
 
 class MembershipCreateSerializer(serializers.ModelSerializer):
@@ -76,10 +124,16 @@ class MembershipSerializer(MembershipCreateSerializer):
 class MixSerializer(serializers.ModelSerializer):
 
     compound = MembershipSerializer(many=True, read_only=True,  source='membership_set')
+    bowl = BowlSerializer(many=False, read_only=True)
 
     class Meta:
         model = Mix
-        fields = ['id', 'mix_name', 'rating', 'strength', 'compound']
+        fields = ['id', 'mix_name', 'rating', 'strength', 'compound', 'bowl']
+
+class MixCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Mix
+        fields = ['id', 'mix_name', 'rating', 'strength', 'compound', 'bowl']
         validators = [
             UniqueTogetherValidator(
                 queryset=Mix.objects.all(),
