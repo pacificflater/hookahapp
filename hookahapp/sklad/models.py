@@ -24,6 +24,7 @@ class Flavour(models.Model):
     flavour_type = models.ManyToManyField(FlavourType)
     flavour_name = models.CharField(max_length=30)
     in_stock = models.BooleanField()
+    description = models.CharField(null=True, max_length=255)
     add_time = models.DateField('date published')
     def __str__(self):
         return self.flavour_name
@@ -44,6 +45,7 @@ class Mix(models.Model):
     rating = models.PositiveIntegerField(default=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
     strength = models.PositiveIntegerField(default=True, validators=[MinValueValidator(0), MaxValueValidator(10)])
     bowl = models.ForeignKey(Bowl, on_delete=models.CASCADE, null=True)
+    description = models.CharField(null=True, max_length=255)
     compound = models.ManyToManyField(Flavour,
                                       through='Membership',
                                       )

@@ -79,7 +79,7 @@ class FlavourCreateSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Flavour
-        fields = ['id', 'flavour_name', 'manufacturer', 'flavour_type', 'in_stock', 'add_time']
+        fields = ['id', 'flavour_name', 'manufacturer', 'flavour_type', 'in_stock', 'description', 'add_time']
 
         validators = [
             UniqueTogetherValidator(
@@ -128,12 +128,12 @@ class MixSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mix
-        fields = ['id', 'mix_name', 'rating', 'strength', 'compound', 'bowl']
+        fields = ['id', 'mix_name', 'rating', 'strength', 'compound', 'bowl', 'description']
 
 class MixCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mix
-        fields = ['id', 'mix_name', 'rating', 'strength', 'compound', 'bowl']
+        fields = ['id', 'mix_name', 'rating', 'strength', 'compound', 'bowl', 'description']
         validators = [
             UniqueTogetherValidator(
                 queryset=Mix.objects.all(),
