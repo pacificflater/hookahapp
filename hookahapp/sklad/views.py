@@ -1,6 +1,8 @@
 from hookahapp.sklad.models import Manufacturer, Flavour, Mix, Membership, FlavourType, ManufacturerType, BowlType, Bowl
 from hookahapp.sklad.serializers import ManufacturerListSerializer, FlavourSerializer, MixSerializer, MembershipSerializer, MembershipCreateSerializer, FlavourCreateSerializer, FlavourTypeSerializer, ManufacturerTypeSerializer, ManufacturerCreateSerializer, BowlSerializer, BowlTypeSerializer, BowlCreateSerializer, MixCreateSerializer
 from rest_framework import permissions, viewsets
+from django.shortcuts import render
+from django.views.generic import TemplateView
 
 class BowlView(viewsets.ModelViewSet):
     serializer_class = BowlSerializer
@@ -96,8 +98,17 @@ class MembershipView(viewsets.ModelViewSet):
 #         ))
 #         return available_mixes
 
+# class HomeView(TemplateView):
+#     template_name = "index.html"
+#
+#     def get_context_data(self, **kwargs):
+#         return super(HomeView, self).get_context_data(**kwargs)
 
+def index(request, path=''):
+    """
+    Renders the Angular2 SPA
+    """
 
-
+    return render(request, 'index.html')
 
 

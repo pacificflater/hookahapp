@@ -8,7 +8,7 @@ class BowlTypeSerializer(serializers.ModelSerializer):
         fields = ['id', 'type']
         validators = [
             UniqueTogetherValidator(
-                queryset=ManufacturerType.objects.all(),
+                queryset=BowlType.objects.all(),
                 fields=['type'],
                 message='Such bowl type already exists'
             )
@@ -26,7 +26,7 @@ class BowlCreateSerializer(serializers.ModelSerializer):
         fields = ['name', 'type']
         validators = [
             UniqueTogetherValidator(
-                queryset=Manufacturer.objects.all(),
+                queryset=Bowl.objects.all(),
                 fields=['name'],
                 message='Such bowl name already exists'
             )

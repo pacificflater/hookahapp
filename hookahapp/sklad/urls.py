@@ -1,4 +1,5 @@
-from django.urls import path, include
+from django.urls import path
+from django.conf.urls import include, url
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
@@ -20,8 +21,10 @@ router.register(r'mixes_in_stock', views.MixesInStockView)
 
 
 urlpatterns = [
+    url(r'^$', views.index),
     path('api/', include(router.urls)),
     path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
+    url(r'^(?P<path>.*)/$', views.index),
 ]
