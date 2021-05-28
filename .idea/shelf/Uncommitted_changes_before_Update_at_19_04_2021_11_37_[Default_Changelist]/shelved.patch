@@ -1,0 +1,74 @@
+Index: C:/Work/rsafe/rsafe-e2e/spec/approval/filter/approval-owner-text-filter.spec.js
+===================================================================
+--- C:/Work/rsafe/rsafe-e2e/spec/approval/filter/approval-owner-text-filter.spec.js	(date 1618470092654)
++++ C:/Work/rsafe/rsafe-e2e/spec/approval/filter/approval-owner-text-filter.spec.js	(date 1618470092654)
+@@ -0,0 +1,24 @@
++describe("Подтверждение: Фильтр 'Подтвердил'", function () {
++
++    let general = new GeneralPageObject();
++    let approval = new ApprovalPageObject();
++
++    let owner_1 = "demo\\administrator";
++    let owner_2 = "demo\\rsafeuser";
++
++    beforeAll(function(){
++        approval.getApprovalPage()
++    });
++
++    afterEach(function () {
++        general.clearFilter.click();
++    });
++
++    it("Фильтр 'Подтвердил' отображает все записи подтвержденные пользователем administrator", function () {
++        approval.ownerDropdownFilterInput(owner_1);
++        approval.ownerNameItem.each(function (element, index) {
++            expect(element.getText()).toEqual(owner_1)
++        });
++    })
++
++})
+\ No newline at end of file
+Index: C:/Work/rsafe/rsafe-e2e/webdriverUpdate.bat
+===================================================================
+--- C:/Work/rsafe/rsafe-e2e/webdriverUpdate.bat	(date 1612168420615)
++++ C:/Work/rsafe/rsafe-e2e/webdriverUpdate.bat	(date 1612168420615)
+@@ -0,0 +1,1 @@
++webdriver-manager update
+\ No newline at end of file
+Index: C:/Work/rsafe/rsafe-e2e/spec/approval/filter/approval-client_type-select-dynamic-filter.spec.js
+===================================================================
+--- C:/Work/rsafe/rsafe-e2e/spec/approval/filter/approval-client_type-select-dynamic-filter.spec.js	(date 1618298332430)
++++ C:/Work/rsafe/rsafe-e2e/spec/approval/filter/approval-client_type-select-dynamic-filter.spec.js	(date 1618298332430)
+@@ -0,0 +1,24 @@
++describe("Подтверждение: Фильтр 'Тип ресурса'", function () {
++
++    let general = new GeneralPageObject();
++    let approval = new ApprovalPageObject();
++
++    let client_type_ntfs = "Файловый сервер";
++    let client_type_ad = "Сервер Active Directory";
++
++    beforeAll(function(){
++        approval.getApprovalPage()
++    });
++
++    // afterEach(function () {
++    //     general.clearFilter.click();
++    // });
++
++    it("Фильтр 'Тип ресурса' отображает все подтверждения выбранного типа ресурса", function () {
++        approval.clientTypeFilter(client_type_ntfs);
++        approval.clientTypeItem.each(function (element, index) {
++            expect(element.getText()).toEqual(client_type_ntfs)
++        });
++    })
++
++})
+\ No newline at end of file
+Index: C:/Work/rsafe/rsafe-e2e/webdriverStart.bat
+===================================================================
+--- C:/Work/rsafe/rsafe-e2e/webdriverStart.bat	(date 1612168420607)
++++ C:/Work/rsafe/rsafe-e2e/webdriverStart.bat	(date 1612168420607)
+@@ -0,0 +1,1 @@
++webdriver-manager start
+\ No newline at end of file
