@@ -17,6 +17,8 @@ venv/
 .Spotlight-V100
 .Trashes
 
+
+
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
@@ -83,6 +85,7 @@ target/
 *.log
 *.pyc
 local_settings.py
+db.sqlite
 
 .env
 db.sqlite3
