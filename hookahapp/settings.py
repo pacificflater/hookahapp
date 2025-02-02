@@ -21,13 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2*@$_0t-viw4%_6r*xnla_xa6lm^x-)kc_5m_f=&)l#x+l0253'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'SWEET-HOME', '192.168.0.104', '*']
-
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -56,6 +56,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8001",
+    "http://nginx"
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8001",
+    "http://nginx"
+]
+# Разрешить передачу кук между доменами
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+
 ROOT_URLCONF = 'hookahapp.urls'
 
 TEMPLATES = [
@@ -77,24 +92,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hookahapp.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hookahapp',
-        'USER': 'administrator',
-        'PASSWORD': '06121824Nn',
-        'PORT': '5432',
-        'HOST': '127.0.0.1'
+        'NAME': os.environ.get("POSTGRES_DB"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+        'PORT': os.environ.get("POSTGRES_PORT"),
+        'HOST': os.environ.get("POSTGRES_HOST")
     }
 }
 
@@ -136,6 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'hookahapp/sklad/static')
 
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
